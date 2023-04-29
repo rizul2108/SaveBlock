@@ -58,12 +58,12 @@ scene.add(sphere);
 let cubeB = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
 cubeB.setFromObject(sphere);
 
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(window.innerWidth-1, window.innerHeight-1);
 document.body.appendChild(renderer.domElement);
 
 function movements() {
   var time = clock.getDelta();
-  var moveDistance = 9;
+  var moveDistance = 200*time;
   var rotateAngle = (Math.PI / 2) * time;
   document.onkeydown = function (e) {
     if (e.code === "ArrowLeft") {
