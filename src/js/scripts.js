@@ -7,10 +7,8 @@ var collideMeshList = [];
 var id = 0;
 var crash = false;
 var clock = new THREE.Clock();
-
 var scoreNumber = document.getElementById("score");
 var maxScoreNumber = document.getElementById("maxScore");
-var finalScore = document.getElementById("finalScore");
 const renderer = new THREE.WebGLRenderer();
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -20,7 +18,9 @@ const camera = new THREE.PerspectiveCamera(
   1000
 );
 camera.position.set(10, 150, 200);
-
+const canvas = renderer.domElement;
+// canvas.style.width="90vw";
+// canvas.style.height="90vh";
 // const axesHelper = new THREE.AxesHelper(100);
 // scene.add(axesHelper);
 
@@ -172,7 +172,6 @@ function animate() {
     Your Final Score is ${maxScore}<br>Press "R" key to Restart the Game`
     maxScoreNumber.style.display="none";
     scoreNumber.style.display="none";
-    const canvas = renderer.domElement;
     canvas.style.display="none";
     document.onkeydown = function (e) {
       if (e.code === "KeyR") {

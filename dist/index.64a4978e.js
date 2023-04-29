@@ -567,11 +567,13 @@ var crash = false;
 var clock = new _three.Clock();
 var scoreNumber = document.getElementById("score");
 var maxScoreNumber = document.getElementById("maxScore");
-var finalScore = document.getElementById("finalScore");
 const renderer = new _three.WebGLRenderer();
 const scene = new _three.Scene();
 const camera = new _three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.set(10, 150, 200);
+const canvas = renderer.domElement;
+// canvas.style.width="90vw";
+// canvas.style.height="90vh";
 // const axesHelper = new THREE.AxesHelper(100);
 // scene.add(axesHelper);
 // const controls = new OrbitControls(camera, renderer.domElement);
@@ -687,7 +689,6 @@ function animate() {
     Your Final Score is ${maxScore}<br>Press "R" key to Restart the Game`;
         maxScoreNumber.style.display = "none";
         scoreNumber.style.display = "none";
-        const canvas = renderer.domElement;
         canvas.style.display = "none";
         document.onkeydown = function(e) {
             if (e.code === "KeyR") {
