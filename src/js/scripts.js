@@ -58,12 +58,12 @@ scene.add(sphere);
 let cubeB = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
 cubeB.setFromObject(sphere);
 
-renderer.setSize(window.innerWidth-1, window.innerHeight-1);
+renderer.setSize(window.innerWidth - 1, window.innerHeight - 1);
 document.body.appendChild(renderer.domElement);
 
 function movements() {
   var time = clock.getDelta();
-  var moveDistance = 200*time;
+  var moveDistance = 200 * time;
   var rotateAngle = (Math.PI / 2) * time;
   document.onkeydown = function (e) {
     if (e.code === "ArrowLeft") {
@@ -85,13 +85,13 @@ function movements() {
       }
     }
     if (e.code === "ArrowUp") {
-      if (moveDistance <21) {
-        moveDistance+=3;
+      if (moveDistance < 21) {
+        moveDistance += 3;
       }
     }
     if (e.code === "ArrowDown") {
-      if (moveDistance >3) {
-        moveDistance-=3;
+      if (moveDistance > 3) {
+        moveDistance -= 3;
       }
     }
   };
@@ -101,10 +101,10 @@ function movements() {
       crashId = cubes[i].name;
       break;
     }
-    crash=false;
+    crash = false;
   }
-  if(crash){
-    score-=5;
+  if (crash) {
+    score -= 5;
   }
 
   if (Math.random() < 0.03 && cubes.length < 30) {
@@ -128,8 +128,6 @@ function movements() {
   maxScoreNumber.innerText = "Max Score:" + Math.floor(maxScore);
 }
 
-
-
 function getRandom(min, max) {
   return Math.random() * (max - min) + min;
 }
@@ -147,14 +145,16 @@ function makeRandomCube() {
   });
   var object = new THREE.Mesh(geometry, material);
 
-
-  const edges = new THREE.EdgesGeometry( geometry ); 
-  const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial( { color: 0xffffff } ) ); 
-  scene.add( line );
+  const edges = new THREE.EdgesGeometry(geometry);
+  const line = new THREE.LineSegments(
+    edges,
+    new THREE.LineBasicMaterial({ color: 0xffffff })
+  );
+  scene.add(line);
   line.position.x = getRandom(-250, 250);
   line.position.y = 1 + b / 2;
   line.position.z = getRandom(-800, -1200);
-    cubes.push(line);
+  cubes.push(line);
   object.name = "box_" + id;
   id++;
   // scene.add(object);
@@ -162,38 +162,37 @@ function makeRandomCube() {
 // makeRandomCube();
 function animate() {
   requestAnimationFrame(animate);
-  if(score>=0){
+  if (score >= 0) {
     movements();
-  }
-  else{
-    const finalDis=document.getElementById("finalScore");
+  } else {
+    const finalDis = document.getElementById("finalScore");
     finalDis.style.display = "block";
-    finalDis.innerHTML=` Game Over<br>
-    Your Final Score is ${maxScore}<br>Press "R" key to Restart the Game`
-    maxScoreNumber.style.display="none";
-    scoreNumber.style.display="none";
-    canvas.style.display="none";
+    finalDis.innerHTML = ` Game Over<br>
+    Your Final Score is ${maxScore}<br>Press "R" key to Restart the Game`;
+    maxScoreNumber.style.display = "none";
+    scoreNumber.style.display = "none";
+    canvas.style.display = "none";
     document.onkeydown = function (e) {
       if (e.code === "KeyR") {
-        score=0;
-        maxScore=0;
+        score = 0;
+        maxScore = 0;
         for (i = 0; i < cubes.length; i++) {
-            scene.remove(cubes[i]);}
-        cubes=[];
+          scene.remove(cubes[i]);
+        }
+        cubes = [];
         id = 0;
         crash = false;
         clock = new THREE.Clock();
-        collideMeshList=[];
+        collideMeshList = [];
         camera.position.set(10, 150, 200);
         sphere.position.set(0, 45, 0);
-        finalDis.style.display="none";
-        maxScoreNumber.style.display="block";
-        scoreNumber.style.display="block";
-        canvas.style.display="block";
+        finalDis.style.display = "none";
+        maxScoreNumber.style.display = "block";
+        scoreNumber.style.display = "block";
+        canvas.style.display = "block";
         animate();
       }
-    }
-
+    };
   }
   renderer.render(scene, camera);
 }
