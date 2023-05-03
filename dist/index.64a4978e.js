@@ -580,7 +580,7 @@ const canvas = renderer.domElement;
 // scene.add(axesHelper);
 // const controls = new OrbitControls(camera, renderer.domElement);
 const points = [];
-points.push(new _three.Vector3(-250, -10, -3000));
+points.push(new _three.Vector3(-250, -1, -3000));
 points.push(new _three.Vector3(-300, -1, 350));
 const geometry = new _three.BufferGeometry().setFromPoints(points);
 const material = new _three.LineBasicMaterial({
@@ -614,14 +614,14 @@ function movements() {
     var rotateAngle = Math.PI / 2 * time;
     document.onkeydown = function(e) {
         if (e.code === "ArrowLeft") {
-            if (sphere.position.x > -270) sphere.position.x -= moveDistance;
+            if (sphere.position.x > -250) sphere.position.x -= moveDistance;
             if (camera.position.x > -150) {
                 camera.position.x -= moveDistance * 0.6;
                 if (camera.rotation.z > -5 * Math.PI / 180) camera.rotation.z -= 0.2 * Math.PI / 180;
             }
         }
         if (e.code === "ArrowRight") {
-            if (sphere.position.x < 270) sphere.position.x += moveDistance;
+            if (sphere.position.x < 250) sphere.position.x += moveDistance;
             if (camera.position.x < 150) {
                 camera.position.x += moveDistance * 0.6;
                 if (camera.rotation.z < 5 * Math.PI / 180) camera.rotation.z += 0.2 * Math.PI / 180;
@@ -635,9 +635,13 @@ function movements() {
         }
     };
     for(let i1 = 0; i1 < cubes.length; i1++){
-        if (sphere.position.distanceTo(cubes[i1].position) < 70) {
+        var cubeVec = new _three.Vector3();
+        var sphvec = new _three.Vector3();
+        cubeB.getSize(sphvec);
+        collideMeshList[i1].getSize(cubeVec);
+        var c = (cubeVec.x + sphvec.x) / 2;
+        if (sphere.position.distanceTo(cubes[i1].position) < c) {
             crash = true;
-            crashId = cubes[i1].name;
             break;
         }
         crash = false;
@@ -670,6 +674,8 @@ function makeRandomCube() {
         color: "red"
     });
     var object = new _three.Mesh(geometry, material);
+    var ob = new _three.Box3();
+    ob.setFromObject(object);
     const edges = new _three.EdgesGeometry(geometry);
     const line = new _three.LineSegments(edges, new _three.LineBasicMaterial({
         color: 0xffffff
@@ -679,9 +685,7 @@ function makeRandomCube() {
     line.position.y = 1 + b / 2;
     line.position.z = getRandom(-800, -1200);
     cubes.push(line);
-    object.name = "box_" + id;
-    id++;
-// scene.add(object);
+    collideMeshList.push(ob);
 }
 // makeRandomCube();
 function animate() {
