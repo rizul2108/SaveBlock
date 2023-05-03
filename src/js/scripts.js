@@ -1,6 +1,9 @@
 import * as THREE from "three";
 
 var score = 0;
+
+var highest = localStorage.getItem("highest");
+localStorage.setItem("highest", highest.toString());
 var maxScore = 0;
 var cubes = [];
 var collideMeshList = [];
@@ -60,7 +63,7 @@ cubeB.setFromObject(sphere);
 
 renderer.setSize(window.innerWidth - 1, window.innerHeight - 1);
 document.body.appendChild(renderer.domElement);
-
+  
 function movements() {
     var time = clock.getDelta();
     var moveDistance = 200 * time;
@@ -170,30 +173,19 @@ function animate() {
     } else {
         const finalDis = document.getElementById("finalScore");
         finalDis.style.display = "block";
+        if (maxScore > highest) {
+            highest = maxScore;
+            localStorage.setItem("highest", highest.toString());
+            console.log(localStorage.getItem("highest"))
+        }
         finalDis.innerHTML = ` Game Over<br>
-    Your Final Score is ${maxScore}<br>Press "R" key to Restart the Game`;
+        Your Final Score is ${maxScore}<br>Your Highest Score till now is ${highest}<br>Press "R" key to Restart the Game`;
         maxScoreNumber.style.display = "none";
         scoreNumber.style.display = "none";
         canvas.style.display = "none";
         document.onkeydown = function(e) {
             if (e.code === "KeyR") {
-                score = 0;
-                maxScore = 0;
-                for (i = 0; i < cubes.length; i++) {
-                    scene.remove(cubes[i]);
-                }
-                cubes = [];
-                id = 0;
-                crash = false;
-                clock = new THREE.Clock();
-                collideMeshList = [];
-                camera.position.set(10, 150, 200);
-                sphere.position.set(0, 45, 0);
-                finalDis.style.display = "none";
-                maxScoreNumber.style.display = "block";
-                scoreNumber.style.display = "block";
-                canvas.style.display = "block";
-                animate();
+                window.location.reload();
             }
         };
     }
