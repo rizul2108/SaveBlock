@@ -3,7 +3,7 @@ import * as THREE from "three";
 var score = 0;
 
 var highest = localStorage.getItem("highest");
-localStorage.setItem("highest", highest.toString());
+localStorage.setItem("highest", highest);
 var maxScore = 0;
 var cubes = [];
 var collideMeshList = [];
@@ -175,8 +175,7 @@ function animate() {
         finalDis.style.display = "block";
         if (maxScore > highest) {
             highest = maxScore;
-            localStorage.setItem("highest", highest.toString());
-            console.log(localStorage.getItem("highest"))
+            localStorage.setItem("highest", highest);
         }
         finalDis.innerHTML = ` Game Over<br>
         Your Final Score is ${maxScore}<br>Your Highest Score till now is ${highest}<br>Press "R" key to Restart the Game`;
