@@ -608,6 +608,37 @@ let cubeB = new _three.Box3(new _three.Vector3(), new _three.Vector3());
 cubeB.setFromObject(sphere);
 renderer.setSize(window.innerWidth - 1, window.innerHeight - 1);
 document.body.appendChild(renderer.domElement);
+function detectCollisions() {
+    for(let i1 = 0; i1 < cubes.length; i1++){
+        var cubeVec = new _three.Vector3();
+        var sphvec = new _three.Vector3();
+        cubeB.getSize(sphvec);
+        collideMeshList[i1].getSize(cubeVec);
+        var c = (cubeVec.x + sphvec.x) / 2;
+        if (sphere.position.distanceTo(cubes[i1].position) < c) {
+            crash = true;
+            break;
+        }
+        crash = false;
+    }
+    if (crash) {
+        score -= 5;
+        document.getElementById("crash_sound").play();
+    }
+}
+function cubesControl() {
+    for(i = 0; i < cubes.length; i++)if (cubes[i].position.z > camera.position.z) {
+        scene.remove(cubes[i]);
+        cubes.splice(i, 1);
+        collideMeshList.splice(i, 1);
+    } else cubes[i].position.z += 5;
+}
+function scoreControl() {
+    score += 0.2;
+    scoreNumber.innerText = "Score:" + Math.floor(score);
+    if (maxScore < score) maxScore = Math.floor(score);
+    maxScoreNumber.innerText = "Max Score:" + Math.floor(maxScore);
+}
 function movements() {
     var time = clock.getDelta();
     var moveDistance = 200 * time;
@@ -634,32 +665,10 @@ function movements() {
             if (moveDistance > 3) moveDistance -= 3;
         }
     };
-    for(let i1 = 0; i1 < cubes.length; i1++){
-        var cubeVec = new _three.Vector3();
-        var sphvec = new _three.Vector3();
-        cubeB.getSize(sphvec);
-        collideMeshList[i1].getSize(cubeVec);
-        var c = (cubeVec.x + sphvec.x) / 2;
-        if (sphere.position.distanceTo(cubes[i1].position) < c) {
-            crash = true;
-            break;
-        }
-        crash = false;
-    }
-    if (crash) {
-        score -= 5;
-        document.getElementById("crash_sound").play();
-    }
+    detectCollisions();
     if (Math.random() < 0.03 && cubes.length < 30) makeRandomCube();
-    for(i = 0; i < cubes.length; i++)if (cubes[i].position.z > camera.position.z) {
-        scene.remove(cubes[i]);
-        cubes.splice(i, 1);
-        collideMeshList.splice(i, 1);
-    } else cubes[i].position.z += 5;
-    score += 0.2;
-    scoreNumber.innerText = "Score:" + Math.floor(score);
-    if (maxScore < score) maxScore = Math.floor(score);
-    maxScoreNumber.innerText = "Max Score:" + Math.floor(maxScore);
+    cubesControl();
+    scoreControl();
 }
 function getRandom(min, max) {
     return Math.random() * (max - min) + min;
