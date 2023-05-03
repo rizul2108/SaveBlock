@@ -642,7 +642,10 @@ function movements() {
         }
         crash = false;
     }
-    if (crash) score -= 5;
+    if (crash) {
+        score -= 5;
+        document.getElementById("crash_sound").play();
+    }
     if (Math.random() < 0.03 && cubes.length < 30) makeRandomCube();
     for(i = 0; i < cubes.length; i++)if (cubes[i].position.z > camera.position.z) {
         scene.remove(cubes[i]);
