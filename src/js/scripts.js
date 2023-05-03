@@ -108,6 +108,7 @@ function movements() {
     }
     if (crash) {
         score -= 5;
+        document.getElementById("crash_sound").play();
     }
 
     if (Math.random() < 0.03 && cubes.length < 30) {
