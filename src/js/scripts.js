@@ -8,6 +8,8 @@ var maxScore = 0;
 var cubes = [];
 var collideMeshList = [];
 var id = 0;
+let moveDistance = 5;
+
 var crash = false;
 var clock = new THREE.Clock();
 var scoreNumber = document.getElementById("score");
@@ -95,17 +97,9 @@ function cubesControl() {
         }
     }
 }
-function scoreControl() {
-    score += 0.2;
-    scoreNumber.innerText = "Score:" + Math.floor(score);
-    if (maxScore < score) {
-        maxScore = Math.floor(score);
-    }
-    maxScoreNumber.innerText = "Max Score:" + Math.floor(maxScore);
-}
+
 function movements() {
     var time = clock.getDelta();
-    var moveDistance = 200 * time;
     var rotateAngle = (Math.PI / 2) * time;
     document.onkeydown = function(e) {
         if (e.code === "ArrowLeft") {
@@ -128,12 +122,14 @@ function movements() {
         }
         if (e.code === "ArrowUp") {
             if (moveDistance < 21) {
-                moveDistance += 3;
+                console.log("in")
+                moveDistance =moveDistance+1;
             }
         }
         if (e.code === "ArrowDown") {
             if (moveDistance > 3) {
-                moveDistance -= 3;
+                console.log("de")
+                moveDistance -= 1;
             }
         }
     };
@@ -143,8 +139,12 @@ function movements() {
     }
   
     cubesControl();
-    scoreControl();
-   
+    score += 0.2;
+    scoreNumber.innerText = "Score:" + Math.floor(score);
+    if (maxScore < score) {
+        maxScore = Math.floor(score);
+    }
+    maxScoreNumber.innerHTML =`Max Score: ${Math.floor(maxScore)}<br> Current Speed:${moveDistance}`;   
 }
 
 function getRandom(min, max) {
