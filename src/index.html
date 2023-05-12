@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Save the Block</title>
-    <link rel="stylesheet" href="./css/style.css">   
+    <link rel="stylesheet" href="./css/style.css">
 </head>
-<body id="mainPage">
-    <div id="score"></div>
-    <div id="maxScore"></div>
-    <div id="finalScore">
-        Game Over<br>
-        Your Final Score is 
+
+<body>
+    <div id="instruct">
+        Press right and left arrow keys to move your block and
+        save it from coming blocks.<br>
+        Press up and down arrow keys to increase/decrease your speed of left &
+        right movement.<br>
+        If you collide with a block your score decreases and if your score again reaches zero then game ends.<br>
+        <button onclick="window.location.replace = 'game.html';">Click here to start the game</button>
+    </div>    
     </div>
-    <audio src="../assets/sound.mp3" preload="auto" id="crash_sound"></audio>
-    <script src="./js/scripts.js" type="module"></script>
 </body>
 
 
