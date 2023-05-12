@@ -4,6 +4,13 @@ body {
   padding: 0;
 }
 
+button {
+  color: #000;
+  cursor: pointer;
+  background: #fff;
+  font-size: 2rem;
+}
+
 #instruct {
   color: #fff;
   text-align: center;
@@ -29,11 +36,9 @@ body {
 }
 
 #finalScore {
-  width: 99vw;
-  height: 99vh;
   color: #fff;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
+  margin-top: 25vh;
   font-size: 4rem;
   display: none;
 }
