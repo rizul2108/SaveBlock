@@ -564,22 +564,17 @@ localStorage.setItem("highest", highest);
 var maxScore = 0;
 var cubes = [];
 var collideMeshList = [];
-var id = 0;
 let moveDistance = 5;
 var crash = false;
 var clock = new _three.Clock();
 var scoreNumber = document.getElementById("score");
+var instructions = document.getElementById("instruct");
 var maxScoreNumber = document.getElementById("maxScore");
 const renderer = new _three.WebGLRenderer();
 const scene = new _three.Scene();
 const camera = new _three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.set(10, 150, 200);
 const canvas = renderer.domElement;
-// canvas.style.width="90vw";
-// canvas.style.height="90vh";
-// const axesHelper = new THREE.AxesHelper(100);
-// scene.add(axesHelper);
-// const controls = new OrbitControls(camera, renderer.domElement);
 const points = [];
 points.push(new _three.Vector3(-250, -1, -3000));
 points.push(new _three.Vector3(-300, -1, 350));
@@ -589,24 +584,24 @@ const material = new _three.LineBasicMaterial({
     linewidth: 5,
     fog: true
 });
-const line = new _three.Line(geometry, material);
-scene.add(line);
+const leftLine = new _three.Line(geometry, material);
+scene.add(leftLine);
 const points2 = [];
 points2.push(new _three.Vector3(250, -1, -3000));
 points2.push(new _three.Vector3(300, -1, 350));
 const geometry2 = new _three.BufferGeometry().setFromPoints(points2);
-const line2 = new _three.Line(geometry2, material);
-scene.add(line2);
+const rightLine = new _three.Line(geometry2, material);
+scene.add(rightLine);
 const boxGeometry = new _three.BoxGeometry(50, 25, 60, 5, 5, 5);
 const boxMaterial = new _three.MeshBasicMaterial({
     color: 0x0000ff,
     wireframe: true
 });
-const sphere = new _three.Mesh(boxGeometry, boxMaterial);
-sphere.position.set(0, 45, 0);
-scene.add(sphere);
+const cuboid = new _three.Mesh(boxGeometry, boxMaterial);
+cuboid.position.set(0, 45, 0);
+scene.add(cuboid);
 let cubeB = new _three.Box3(new _three.Vector3(), new _three.Vector3());
-cubeB.setFromObject(sphere);
+cubeB.setFromObject(cuboid);
 renderer.setSize(window.innerWidth - 1, window.innerHeight - 1);
 document.body.appendChild(renderer.domElement);
 function detectCollisions() {
@@ -616,7 +611,7 @@ function detectCollisions() {
         cubeB.getSize(sphvec);
         collideMeshList[i1].getSize(cubeVec);
         var c = (cubeVec.x + sphvec.x) / 2;
-        if (sphere.position.distanceTo(cubes[i1].position) < c) {
+        if (cuboid.position.distanceTo(cubes[i1].position) < c) {
             crash = true;
             break;
         }
@@ -639,14 +634,14 @@ function movements() {
     var rotateAngle = Math.PI / 2 * time;
     document.onkeydown = function(e) {
         if (e.code === "ArrowLeft") {
-            if (sphere.position.x > -250) sphere.position.x -= moveDistance;
+            if (cuboid.position.x > -250) cuboid.position.x -= moveDistance;
             if (camera.position.x > -150) {
                 camera.position.x -= moveDistance * 0.6;
                 if (camera.rotation.z > -5 * Math.PI / 180) camera.rotation.z -= 0.2 * Math.PI / 180;
             }
         }
         if (e.code === "ArrowRight") {
-            if (sphere.position.x < 250) sphere.position.x += moveDistance;
+            if (cuboid.position.x < 250) cuboid.position.x += moveDistance;
             if (camera.position.x < 150) {
                 camera.position.x += moveDistance * 0.6;
                 if (camera.rotation.z < 5 * Math.PI / 180) camera.rotation.z += 0.2 * Math.PI / 180;
@@ -689,14 +684,14 @@ function makeRandomCube() {
     var ob = new _three.Box3();
     ob.setFromObject(object);
     const edges = new _three.EdgesGeometry(geometry);
-    const line = new _three.LineSegments(edges, new _three.LineBasicMaterial({
+    const leftLine = new _three.LineSegments(edges, new _three.LineBasicMaterial({
         color: 0xffffff
     }));
-    scene.add(line);
-    line.position.x = getRandom(-250, 250);
-    line.position.y = 1 + b / 2;
-    line.position.z = getRandom(-800, -1200);
-    cubes.push(line);
+    scene.add(leftLine);
+    leftLine.position.x = getRandom(-250, 250);
+    leftLine.position.y = 1 + b / 2;
+    leftLine.position.z = getRandom(-800, -1200);
+    cubes.push(leftLine);
     collideMeshList.push(ob);
 }
 // makeRandomCube();
